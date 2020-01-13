@@ -13,9 +13,9 @@ class Countdown extends Component{
         }
     
     }
-    //componentDidMount(){
-       // this.interval = setInterval(() => this.setState({duration: this.getTimeLeft }))
-    //}
+    componentDidMount(){
+        this.interval = setInterval(() => {this.setState({duration: this.getTimeLeft() })}, 1000)
+  }
     getTimeLeft(){
         let now = moment(),
             newYear = moment({year: now.year()+1} ),

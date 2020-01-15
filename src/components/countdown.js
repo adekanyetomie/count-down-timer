@@ -1,33 +1,30 @@
 import React, {Component} from 'react'
 import moment from 'moment'
 import Controls  from './control'
+import Date from './Date'
 
 
 class Countdown extends Component{
 
-    constructor(props){
-        super(props)
-
-        this.state = {
+    state = {
             
-            duration: this.getTimeLeft(),
+            currentDate: moment(),
+            nextDate: moment({year: moment().year()+1}),
             paused: false
         }
-        //this.togglePaused = this.togglePaused.bind(this)
     
-    }
+    
+    
     componentDidMount(){
-        this.interval = setInterval(() => {this.setState({duration: this.getTimeLeft() })}, 1000)
+        this.resume()
     }
     componentWillUnmount(){
-        clearInterval(this.interval)
+        this.paused()
     }
 
     getTimeLeft(){
-        let now = moment(),
-            newYear = moment({year: now.year()+1} ),
-            diff= newYear.diff(now)
-        
+        let {currentDate, nextDate} = this.state,
+        diff = nextDate.diff(currentDate) 
         return moment.duration(diff)
         
 
@@ -40,21 +37,32 @@ class Countdown extends Component{
             const paused = !prevState.paused
 
             if (paused){
-                clearInterval(this.interval)
+                this.pause()
             }else{
-            this.interval = setInterval(() => {this.setState({duration: this.getTimeLeft() })}, 1000)
-    
+                this.resume()
             }
 
            return{
                 paused 
            }
-       } )
-        
+       })  
+    }
+    pause(){
+        clearInterval(this.interval)
+    }
+
+    resume(){
+        this.interval = setInterval(() => {this.setState({currentDate: moment() })}, 1000)
+    }
+    dateReset = (nextDate) =>{
+        this.setState({
+            nextDate
+        })
     }
     render() 
     {
-        const {duration, paused} = this.state
+        const { paused} = this.state
+        const duration = this.getTimeLeft()
 
         return <section className="hero is-dark is-bold  is-fullheight  has-text-centered">
             <div className="hero-body">
@@ -66,30 +74,30 @@ class Countdown extends Component{
                 <nav className="level">
                     <div className="level-item has-text-centered ">
                         <div>
-                        <p className="heading">Days</p>
                         <p className="title">{Math.floor(duration.asDays())}</p>
+                        <p className="heading">Days</p>
                         </div>
                     </div>
                     <div className="level-item has-text-centered">
                         <div>
-                        <p className="heading">Hours</p>
                         <p className="title">{duration.hours().toString().padStart(2, '0')}</p>
+                        <p className="heading">Hours</p>
                         </div>
                     </div>
                     <div className="level-item has-text-centered">
                         <div>
-                        <p className="heading">Minutes</p>
                         <p className="title">{duration.minutes().toString().padStart(2, '0')}</p>
+                        <p className="heading">Minutes</p>
                         </div>
                     </div>
                     <div className="level-item has-text-centered">
                         <div>
-                        <p className="heading">Seconds</p>
                         <p className="title">{duration.seconds().toString().padStart(2, '0')}</p>
+                        <p className="heading">Seconds</p>
                         </div>
                     </div>
                 </nav>
-
+                <Date onDateReset={this.dateReset}/>
             </section>
             <Controls paused={paused} onPausedToggle={this.togglePaused} />
             </div>

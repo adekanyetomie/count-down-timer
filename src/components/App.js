@@ -2,11 +2,6 @@ import React from 'react';
 import Countdown from './countdown'
 
 
-const App = () => 
-<div>
-    <Countdown/>
-</div>
-
-
+const App = () =>  <Countdown/>
 
 export default App;

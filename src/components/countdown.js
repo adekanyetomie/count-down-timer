@@ -13,7 +13,7 @@ class Countdown extends Component{
             duration: this.getTimeLeft(),
             paused: false
         }
-        this.togglePaused = this.togglePaused.bind(this)
+        //this.togglePaused = this.togglePaused.bind(this)
     
     }
     componentDidMount(){
@@ -32,11 +32,13 @@ class Countdown extends Component{
         
 
     }
-    togglePaused(){
+
+
+    togglePaused = ()=> {
        this.setState((prevState, props) => {
 
             const paused = !prevState.paused
-            
+
             if (paused){
                 clearInterval(this.interval)
             }else{

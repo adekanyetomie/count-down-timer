@@ -68,7 +68,7 @@ class Countdown extends Component{
             <div className="hero-body">
                 <div className="container">
                     <h1 className="title">
-                        Count-down to {nextDate.calendar()}
+                        Count-down to  {nextDate.calendar()}
                     </h1>
                 <section className="section">
                 <nav className="level">

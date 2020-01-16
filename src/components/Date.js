@@ -10,25 +10,19 @@ class Date extends Component{
     }
 
     dateChange = ({target: {value}}) => {
-        const date = moment(value)
+        const date = moment(value),
+        valid = date.isValid() && date.isAfter(moment())
+        
         this.setState({
+            valid,
             date: value,
-            valid: date.isValid() && date.isAfter(moment()),
             input : true
         })
 
-    }
-    dateSubmit = (e) => {
-        e.preventDefault()
+        valid && this.props.onDateReset(date)
 
-        const{valid, date, input} = this.state
-
-        //if(valid)
-        //  this.props.onDateReset(moment(date))
-        valid && this.props.onDateReset(moment(date))   
-         
-        
     }
+   
 
     render(){
         let {date, valid, input} = this.state,
@@ -40,18 +34,14 @@ class Date extends Component{
     
 
 
-        return <form onSubmit={this.dateSubmit}>
-            <div className="field is-grouped is-grouped-centered">
+        return <div className="field is-grouped is-grouped-centered">
         <div className="control" >
             <input className= {ref} value = {date} onChange= {this.dateChange} placeholder="Enter Date"/>  
             
            { !valid && <p className="help is-danger is-size-7 has-text-centered">Enter a valid (and future) date!</p>}
         </div>
-        <div className="control" >
-            <button className="button  is-rounded is-outlined"> Reset </button>
         </div>
-        </div>
-    </form>
+    
     }
 }
 

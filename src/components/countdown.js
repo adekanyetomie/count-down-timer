@@ -61,14 +61,14 @@ class Countdown extends Component{
     }
     render() 
     {
-        const { paused} = this.state
+        const { paused, nextDate} = this.state
         const duration = this.getTimeLeft()
 
         return <section className="hero is-dark is-bold  is-fullheight  has-text-centered">
             <div className="hero-body">
                 <div className="container">
                     <h1 className="title">
-                        Count-down timer
+                        Count-down to {nextDate.calendar()}
                     </h1>
                 <section className="section">
                 <nav className="level">
